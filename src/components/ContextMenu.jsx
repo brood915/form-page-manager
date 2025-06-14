@@ -31,8 +31,8 @@ export default function ContextMenu({ onClose }) {
           key={opt}
           onClick={onClose}
           className={`px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors ${
-    opt === "Delete" ? "text-red-600" : "text-gray-700"
-  }`}
+            opt === "Delete" ? "text-red-600" : "text-gray-700"
+          }`}
         >
           {opt}
         </li>

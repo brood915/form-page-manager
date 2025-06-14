@@ -1,6 +1,7 @@
 import React from "react";
 import PageButton from "./components/PageButton";
 import AddConnector from "./components/AddConnector";
+import AddPageButton from "./components/AddPageButton";
 
 export default function App() {
   const initialPages = [
@@ -52,6 +53,8 @@ export default function App() {
             )}
           </React.Fragment>
         ))}
+        {/* Trailing dashed connector + Add page button */}
+        <AddPageButton onAdd={() => addPageAt(pages.length)} />
       </nav>
     </div>
   );

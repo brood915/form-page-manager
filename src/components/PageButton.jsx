@@ -33,7 +33,7 @@ export default function PageButton({ page, index, active, onActivate, onMove }) 
         ref={buttonRef}
         onClick={onActivate}
         className={`px-6 py-2 rounded-lg font-medium ring-0 focus:outline-none transition-colors duration-150 ${
-    active ? "bg-white shadow text-blue-600" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+    active ? "bg-white shadow text-[#1A1A1A] weight-500" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
   }`}
       >
         {page.title}

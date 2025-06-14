@@ -1,4 +1,3 @@
-// hooks/useDragAndDrop.js
 import { useState } from 'react';
 
 export const useDragAndDrop = (items, setItems) => {

@@ -1,5 +1,6 @@
 import React from "react";
 import ContextMenu from "./ContextMenu";
+import PageIcon from "./PageIcon";
 
 export default function PageButton({ page, index, active, onActivate, onMove }) {
   const [menuOpen, setMenuOpen] = React.useState(false);
@@ -32,10 +33,11 @@ export default function PageButton({ page, index, active, onActivate, onMove }) 
       <button
         ref={buttonRef}
         onClick={onActivate}
-        className={`px-6 py-2 rounded-lg font-medium ring-0 focus:outline-none transition-colors duration-150 ${
-    active ? "bg-white shadow text-[#1A1A1A] weight-500" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+        className={`inline-flex flex-row items-center gap-2 px-6 py-2 rounded-lg font-medium ring-0 focus:outline-none transition-colors duration-150 whitespace-nowrap ${
+    active ? "bg-white shadow text-[#1A1A1A] weight-500" : "bg-[#9DA4B226] text-gray-700 hover:bg-[#9DA4B259]"
   }`}
       >
+        <PageIcon title={page.title} active={active} />
         {page.title}
       </button>
 

@@ -31,8 +31,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-8">
-      <nav className="flex items-center bg-gray-100 rounded-lg px-6 py-3 shadow-sm space-x-0 max-w-[1200px] overflow-x-auto">
+    <div className="min-h-screen bg-gray-50 flex justify-center py-16 px-8 font-inter">
+      <nav className="flex items-center rounded-lg px-6 py-3 space-x-0 max-w-[1200px] overflow-x-auto overflow-y-visible">
         {pages.map((page, idx) => (
           <React.Fragment key={page.id}>
             <PageButton

@@ -37,7 +37,7 @@ export default function App() {
   // Render
   // ─────────────────────────────────────────────
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-8 overflow-y-scroll">
       <nav className="flex items-center bg-gray-100 rounded-lg px-6 py-3 shadow-sm space-x-0">
         {pages.map((page, idx) => (
           <React.Fragment key={page.id}>

@@ -9,9 +9,6 @@ export default function PageIcon({ title, active }) {
   switch (title) {
     case "Info":
       return <Info {...props} />;
-    case "Details":
-    case "Other":
-      return <FileText {...props} />;
     case "Ending":
       return <CheckCircle {...props} />;
     default:

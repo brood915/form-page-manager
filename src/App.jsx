@@ -14,9 +14,6 @@ export default function App() {
   const [pages, setPages] = React.useState(initialPages);
   const [activeId, setActiveId] = React.useState(0);
 
-  // ─────────────────────────────────────────────
-  // Helpers
-  // ─────────────────────────────────────────────
   const addPageAt = (idx) => {
     const newId = Date.now();
     const newPage = { id: newId, title: `Page ${pages.length + 1}` };
@@ -33,12 +30,9 @@ export default function App() {
     setPages(copy);
   };
 
-  // ─────────────────────────────────────────────
-  // Render
-  // ─────────────────────────────────────────────
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-8 overflow-y-scroll">
-      <nav className="flex items-center bg-gray-100 rounded-lg px-6 py-3 shadow-sm space-x-0">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-8">
+      <nav className="flex items-center bg-gray-100 rounded-lg px-6 py-3 shadow-sm space-x-0 max-w-[1200px] overflow-x-auto">
         {pages.map((page, idx) => (
           <React.Fragment key={page.id}>
             <PageButton
@@ -53,7 +47,6 @@ export default function App() {
             )}
           </React.Fragment>
         ))}
-        {/* Trailing dashed connector + Add page button */}
         <AddPageButton onAdd={() => addPageAt(pages.length)} />
       </nav>
     </div>

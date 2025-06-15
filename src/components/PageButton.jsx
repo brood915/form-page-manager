@@ -29,7 +29,6 @@ export default function PageButton({ page, index, active, onActivate, onMove }) 
       onDragOver={(e) => e.preventDefault()}
       onDrop={handleDrop}
     >
-      {/* Main button */}
       <button
         ref={buttonRef}
         onClick={onActivate}
@@ -40,12 +39,10 @@ export default function PageButton({ page, index, active, onActivate, onMove }) 
         <PageIcon title={page.title} active={active} />
         {page.title}
       </button>
-
-      {/* Kebab menu trigger (appears on hover) */}
       <button
         onClick={(e) => {
           e.stopPropagation();
-          setMenuOpen((o) => !o);
+          setMenuOpen((open) => !open);
         }}
         className="absolute -right-0.5 -top-0.5 h-10 w-6 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
       >

@@ -1,50 +1,36 @@
-import React from "react";
-import PageButton from "./components/PageButton";
-import AddConnector from "./components/AddConnector";
-import AddPageButton from "./components/AddPageButton";
+import React, { useState } from "react";
+import PageButton      from "./components/PageButton";
+import AddConnector    from "./components/AddConnector";
+import AddPageButton   from "./components/AddPageButton";
+import { useDragAndDrop } from "./hooks/useDragAndDrop";
 
 export default function App() {
-  const initialPages = [
+  const [pages, setPages] = useState([
     { id: 0, title: "Info" },
     { id: 1, title: "Details" },
     { id: 2, title: "Other" },
-    { id: 3, title: "Ending" },
-  ];
+    { id: 3, title: "Ending" }
+  ]);
+  const [activeId, setActive] = useState(0);
 
-  const [pages, setPages] = React.useState(initialPages);
-  const [activeId, setActiveId] = React.useState(0);
-
+  /** add new page */
   const addPageAt = (idx) => {
-    const newId = Date.now();
-    const newPage = { id: newId, title: `Page ${pages.length + 1}` };
-    const next = [...pages.slice(0, idx), newPage, ...pages.slice(idx)];
-    setPages(next);
-    setActiveId(newId);
+    const newPage = { id: Date.now(), title: `Page ${pages.length + 1}` };
+    setPages([...pages.slice(0, idx), newPage, ...pages.slice(idx)]);
+    setActive(newPage.id);
   };
 
-  const movePage = (from, to) => {
-    if (to < 0 || to >= pages.length) return;
-    const copy = [...pages];
-    const [dragged] = copy.splice(from, 1);
-    copy.splice(to, 0, dragged);
-    setPages(copy);
-  };
+  /** hook wiring */
+  const dnd = useDragAndDrop(pages, setPages);
+  dnd.setActive = setActive; // pass down activation helper
 
   return (
-    <div className="min-h-screen bg-gray-50 flex justify-center py-16 px-8 font-inter">
-      <nav className="flex items-center rounded-lg px-6 py-3 space-x-0 max-w-[1200px] overflow-x-auto overflow-y-visible">
-        {pages.map((page, idx) => (
-          <React.Fragment key={page.id}>
-            <PageButton
-              page={page}
-              index={idx}
-              active={page.id === activeId}
-              onActivate={() => setActiveId(page.id)}
-              onMove={(from, to) => movePage(from, to)}
-            />
-            {idx < pages.length - 1 && (
-              <AddConnector onAdd={() => addPageAt(idx + 1)} />
-            )}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-8">
+      <nav className="flex items-center bg-gray-100 rounded-lg px-6 py-3 shadow-sm space-x-0 overflow-x-auto overflow-y-hidden whitespace-nowrap w-full max-w-4xl">
+        {pages.map((p, idx) => (
+          <React.Fragment key={p.id}>
+            <PageButton page={p} index={idx} active={p.id === activeId} dnd={dnd} />
+            {idx < pages.length - 1 && <AddConnector onAdd={() => addPageAt(idx + 1)} />}
           </React.Fragment>
         ))}
         <AddPageButton onAdd={() => addPageAt(pages.length)} />

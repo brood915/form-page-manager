@@ -1,51 +1,49 @@
-import React from "react";
-import { Flag, Pencil, Copy, Layers, Trash } from "lucide-react";
+import React, { useRef, useEffect } from "react";
+import { MENU_ITEMS } from "../constants/menuItems";
+import { cn } from "../utils/classNames";
 
-export default function ContextMenu({ onClose }) {
-  const menuRef = React.useRef(null);
+export default function ContextMenu({ anchorRef, onClose }) {
+  const menuRef = useRef(null);
 
-  React.useEffect(() => {
-    function handleOutside(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        onClose();
-      }
-    }
-    window.addEventListener("mousedown", handleOutside);
-    return () => window.removeEventListener("mousedown", handleOutside);
+  // 💡 auto‑position under anchor
+  useEffect(() => {
+    if (!anchorRef.current || !menuRef.current) return;
+    const rect = anchorRef.current.getBoundingClientRect();
+    menuRef.current.style.top  = `${rect.bottom + 8}px`;
+    menuRef.current.style.left = `${rect.left}px`;
+  }, [anchorRef]);
+
+  // outside‑click to close
+  useEffect(() => {
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) onClose();
+    };
+    window.addEventListener("mousedown", handler);
+    return () => window.removeEventListener("mousedown", handler);
   }, [onClose]);
-
-  const menuItems = [
-    { label: "Set as first page", icon: Flag, color: "text-blue-600" },
-    { label: "Rename", icon: Pencil, color: "text-gray-600" },
-    { label: "Copy", icon: Copy, color: "text-gray-600" },
-    { label: "Duplicate", icon: Layers, color: "text-gray-600" },
-    { divider: true },
-    { label: "Delete", icon: Trash, color: "text-red-600", danger: true },
-  ];
 
   return (
     <ul
       ref={menuRef}
-      className="absolute right-0 top-full mt-2 z-50 bg-white shadow-lg rounded-lg py-2 w-56 text-sm font-medium animate-fade-in"
+      className="fixed z-50 bg-white shadow-lg rounded-lg py-2 w-56 text-sm font-medium animate-fade-in"
     >
-      {menuItems.map((item, idx) => {
-        if (item.divider) {
-          return <div key={`div-${idx}`} className="my-2 border-t" />;
-        }
-        const Icon = item.icon;
-        return (
+      {MENU_ITEMS.map((item, i) => (
+        item.divider ? (
+          <div key={i} className="my-2 border-t" />
+        ) : (
           <li
             key={item.label}
             onClick={onClose}
-            className={`flex flex-row items-center gap-3 px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors ${
+            className={cn(
+              "flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors",
               item.danger ? "text-red-600" : "text-gray-700"
-            }`}
+            )}
           >
-            <Icon className={`h-4 w-4 ${item.color}`} />
-            <span className="flex-1 truncate">{item.label}</span>
+            <item.icon className={cn("w-4 h-4", item.color)} />
+            <span className="truncate flex-1">{item.label}</span>
           </li>
-        );
-      })}
+        )
+      ))}
     </ul>
   );
 }

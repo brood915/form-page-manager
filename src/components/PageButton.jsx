@@ -1,57 +1,40 @@
-import React from "react";
-import ContextMenu from "./ContextMenu";
+import React, { useState, useRef } from "react";
 import PageIcon from "./PageIcon";
+import ContextMenu from "./ContextMenu";
+import { cn } from "../utils/classNames";
 
-export default function PageButton({ page, index, active, onActivate, onMove }) {
-  const [menuOpen, setMenuOpen] = React.useState(false);
-  const buttonRef = React.useRef(null);
-  const dragRef = React.useRef(null);
-
-  // Drag & drop events
-  const handleDragStart = (e) => {
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/index", index.toString());
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const fromIdx = Number(e.dataTransfer.getData("text/index"));
-    if (fromIdx === index) return;
-    onMove(fromIdx, index);
-  };
+export default function PageButton({ page, index, active, dnd }) {
+  const [open, setOpen]       = useState(false);
+  const btnRef               = useRef(null);
 
   return (
-    <div
-      ref={dragRef}
-      className="relative group select-none"
+    <div 
+      className="relative select-none group"
       draggable
-      onDragStart={handleDragStart}
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={handleDrop}
+      onDragStart={(e) => dnd.onDragStart(e, index)}
+      onDragOver={(e) => dnd.onDragOver(e, index)}
+      onDragEnd={dnd.onDragEnd}
     >
       <button
-        ref={buttonRef}
-        onClick={onActivate}
-        className={`inline-flex flex-row items-center gap-2 px-6 py-2 rounded-lg font-medium ring-0 focus:outline-none transition-colors duration-150 whitespace-nowrap ${
-    active ? "bg-white shadow text-[#1A1A1A] weight-500" : "bg-[#9DA4B226] text-gray-700 hover:bg-[#9DA4B259]"
-  }`}
+        ref={btnRef}
+        onClick={() => dnd.setActive(page.id)}
+        className={cn(
+          "inline-flex items-center gap-2 px-6 py-2 rounded-lg font-medium whitespace-nowrap transition-colors",
+          active ? "bg-white shadow text-gray-900" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+        )}
       >
         <PageIcon title={page.title} active={active} />
         {page.title}
       </button>
+
+      {/* kebab */}
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setMenuOpen((open) => !open);
-        }}
-        className="absolute -right-0.5 -top-0.5 h-10 w-6 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
-      >
-        <span className="leading-none text-sm">⋮</span>
+        onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); }}
+        className="absolute -right-0.5 -top-0 h-10 w-6 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+      >⋮
       </button>
 
-      {menuOpen && (
-        <ContextMenu onClose={() => setMenuOpen(false)} />
-      )}
+      {open && <ContextMenu anchorRef={btnRef} onClose={() => setOpen(false)} />}  {/* portal menu */}
     </div>
   );
 }

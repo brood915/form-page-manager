@@ -1,5 +1,5 @@
-import React from "react";
 import ConnectorDashes from "./ConnectorDashes";
+import { Plus } from "lucide-react";
 
 export default function AddPageButton({ onAdd }) {
   return (
@@ -9,10 +9,10 @@ export default function AddPageButton({ onAdd }) {
       </div>
       <button
         onClick={onAdd}
-        className="inline-flex items-center gap-2 px-6 h-10 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium shadow hover:bg-gray-50 whitespace-nowrap focus:outline-none transition-colors"
+        className="inline-flex items-center gap-2 px-6 h-10 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium shadow hover:bg-gray-50 whitespace-nowrap focus:outline-none"
       >
-        <span className="text-base leading-none">+</span>
-        <span>Add page</span>
+        <Plus className="w-4 h-4" />
+        Add page
       </button>
     </div>
   );

@@ -1,54 +1,31 @@
-import { useState } from 'react';
+import { useState } from "react";
 
+/**
+ * Generic hook for drag‑and‑drop re‑ordering.
+ *
+ * @param {Array}   items      – the list you want to re‑order
+ * @param {Function} setItems  – state setter from useState
+ * @returns helpers + props for draggable children
+ */
 export const useDragAndDrop = (items, setItems) => {
-  const [draggedItem, setDraggedItem] = useState(null);
-  const [dragOverIndex, setDragOverIndex] = useState(null);
+  const [dragged, setDragged] = useState(null);
 
-  const handleDragStart = (e, index) => {
-    setDraggedItem(index);
-    e.dataTransfer.effectAllowed = 'move';
+  const onDragStart = (e, index) => {
+    setDragged(index);
+    e.dataTransfer.effectAllowed = "move";
   };
 
-  const handleDragOver = (e, index) => {
+  const onDragOver = (e, overIdx) => {
     e.preventDefault();
-    setDragOverIndex(index);
+    if (dragged === null || dragged === overIdx) return;
+    const copy = [...items];
+    const [item] = copy.splice(dragged, 1);
+    copy.splice(overIdx, 0, item);
+    setItems(copy);
+    setDragged(overIdx);
   };
 
-  const handleDragLeave = () => {
-    setDragOverIndex(null);
-  };
+  const onDragEnd = () => setDragged(null);
 
-  const handleDrop = (e, dropIndex) => {
-    e.preventDefault();
-    if (draggedItem === null || draggedItem === dropIndex) return;
-
-    const newItems = [...items];
-    const draggedElement = newItems[draggedItem];
-    
-    // Remove dragged item
-    newItems.splice(draggedItem, 1);
-    
-    // Insert at new position
-    const insertIndex = draggedItem < dropIndex ? dropIndex - 1 : dropIndex;
-    newItems.splice(insertIndex, 0, draggedElement);
-    
-    setItems(newItems);
-    setDraggedItem(null);
-    setDragOverIndex(null);
-  };
-
-  const handleDragEnd = () => {
-    setDraggedItem(null);
-    setDragOverIndex(null);
-  };
-
-  return {
-    draggedItem,
-    dragOverIndex,
-    handleDragStart,
-    handleDragOver,
-    handleDragLeave,
-    handleDrop,
-    handleDragEnd
-  };
+  return { onDragStart, onDragOver, onDragEnd };
 };

@@ -7,7 +7,12 @@ export default function AddConnector({ onAdd }) {
       className="relative w-10 h-6 mx-2 flex items-center justify-center group focus:outline-none"
     >
       <ConnectorDashes />
-      <span className="absolute inset-0 flex items-center justify-center text-gray-400 text-lg opacity-0 group-hover:opacity-100 transition-opacity">+</span>
+<span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                 w-6 h-6 rounded-full bg-white border border-[#E1E1E1]
+                 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+  <span className="text-[#000000] text-base leading-none translate-y-[-1px]">+</span>
+</span>
+
     </button>
   );
 }

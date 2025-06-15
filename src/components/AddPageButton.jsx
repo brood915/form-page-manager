@@ -9,9 +9,9 @@ export default function AddPageButton({ onAdd }) {
       </div>
       <button
         onClick={onAdd}
-        className="inline-flex items-center gap-2 px-6 h-10 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium shadow hover:bg-gray-50 whitespace-nowrap focus:outline-none"
+        className="inline-flex items-center gap-2 px-6 h-10 rounded-lg border border-gray-300 bg-white text-[#1A1A1A] font-medium shadow hover:bg-gray-50 whitespace-nowrap focus:outline-none"
       >
-        <Plus className="w-4 h-4" />
+        <Plus className="w-4 h-4 translate-y-[1px]" />
         Add page
       </button>
     </div>

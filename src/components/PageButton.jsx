@@ -20,7 +20,7 @@ export default function PageButton({ page, index, active, dnd }) {
         onClick={() => dnd.setActive(page.id)}
         className={cn(
           "inline-flex items-center gap-2 px-6 py-2 rounded-lg font-medium whitespace-nowrap transition-colors",
-          active ? "bg-white shadow text-gray-900" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+          active ? "bg-white shadow text-[#1A1A1A]" : "bg-[#9DA4B226] text-[#677289] hover:bg-[#9DA4B259]"
         )}
       >
         <PageIcon title={page.title} active={active} />

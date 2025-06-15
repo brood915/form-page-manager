@@ -4,7 +4,7 @@
 
 @layer utilities {
   .animate-fade-in {
-    @apply opacity-0 translate-y-1; /* start slightly low */
+    @apply opacity-0 translate-y-1;
     animation: fadeIn 120ms ease-out forwards;
   }
 
